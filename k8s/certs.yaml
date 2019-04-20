@@ -1,0 +1,31 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: 'philip.bui.developer@gmail.com'
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the http-01 challenge provider   
+    http01: {}
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: wilde-tls
+spec:
+  secretName: wilde-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: 35.201.16.87 
+  dnsNames:
+  - 35.201.16.87
+  acme:
+    config:
+    - http01:
+        ingress: helloweb
+      domains:
+      - www.philipbui.com

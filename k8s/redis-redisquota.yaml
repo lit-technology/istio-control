@@ -1,0 +1,24 @@
+apiVersion: "config.istio.io/v1alpha2"
+kind: redisquota
+metadata:
+  name: handler
+  namespace: istio-system
+spec:
+  quotas:
+  - name: requestcount.quota.istio-system
+    maxAmount: 100
+    validDuration: 1s
+    bucketDuration: 500ms
+    rateLimitAlgorithm: FIXED_WINDOW
+    overrides:
+    - dimensions:
+        destination: wilde
+        source: "192.168.0.1" 
+      maxAmount: 50000
+      validDuration: 1s
+    - dimensions:
+        destination: wilde 
+      maxAmount: 10
+      validDuration: 1s
+    redisServerUrl: redis.default.svc.cluster.local
+    connectionPoolSize: 10

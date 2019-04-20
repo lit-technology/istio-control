@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: wilde
+  labels:
+    app: wilde
+spec:
+  selector:
+    app: wilde
+  ports:
+    - port: 8443
+      name: https
+
